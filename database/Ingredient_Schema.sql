@@ -13,7 +13,7 @@ CREATE TABLE Ingredient (
 CREATE TABLE Ingredient_Line (
     ingredientID INT NOT NULL,
     recipeID INT NOT NULL,
-    quantity INT NOT NULL,
+    quantity FLOAT NOT NULL,
     CONSTRAINT PK_Ingredient_Line PRIMARY KEY (ingredientID, recipeID),
     FOREIGN KEY (ingredientID) REFERENCES Ingredient(ID),
     FOREIGN KEY (recipeID) REFERENCES Recipe(ID)
