@@ -8,9 +8,9 @@ CREATE TABLE Tag (
     PRIMARY KEY (ID)
 );
 CREATE TABLE Recipe_Tag (
-    RecipeID INT NOT NULL,
-    TagID INT NOT NULL,
-    CONSTRAINT PK_Recipe_Tag PRIMARY KEY (RecipeID, TagID),
-    FOREIGN KEY (RecipeID) REFERENCES Recipe(ID),
-    FOREIGN KEY (TagID) REFERENCES Tag(ID)
+    recipeID INT NOT NULL,
+    tagID INT NOT NULL,
+    CONSTRAINT PK_Recipe_Tag PRIMARY KEY (recipeID, tagID),
+    FOREIGN KEY (recipeID) REFERENCES Recipe(ID),
+    FOREIGN KEY (tagID) REFERENCES Tag(ID)
 );

@@ -4,13 +4,13 @@
 USE Savora;
 
 ALTER TABLE Ingredient
-ADD Price FLOAT NOT NULL,
-ADD Energy_Kj INT NOT NULL,
+ADD price FLOAT NOT NULL,
+ADD energy_Kj INT NOT NULL,
 -- Consider allowing the following to be null for easier use
-ADD Fat FLOAT NOT NULL,
-ADD Fat_Saturates FLOAT NOT NULL,
-ADD Carbs FLOAT NOT NULL,
-ADD Sugar FLOAT NOT NULL,
-ADD Fibre FLOAT NOT NULL,
-ADD Protein FLOAT NOT NULL,
-ADD Salt FLOAT NOT NULL;
+ADD fat FLOAT NOT NULL,
+ADD fat_saturates FLOAT NOT NULL,
+ADD carbs FLOAT NOT NULL,
+ADD sugar FLOAT NOT NULL,
+ADD fibre FLOAT NOT NULL,
+ADD protein FLOAT NOT NULL,
+ADD salt FLOAT NOT NULL;

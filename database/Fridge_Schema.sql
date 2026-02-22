@@ -3,10 +3,10 @@
 USE Savora;
 
 CREATE TABLE Fridge (
-    UserID INT NOT NULL,
-    IngredientID INT NOT NULL,
-    Quantity FLOAT NOT NULL,
-    CONSTRAINT PK_Fridge PRIMARY KEY (UserID, IngredientID),
-    FOREIGN KEY (UserID) REFERENCES User(ID),
-    FOREIGN KEY (IngredientID) REFERENCES Ingredient(ID)
+    userID INT NOT NULL,
+    ingredientID INT NOT NULL,
+    quantity FLOAT NOT NULL,
+    CONSTRAINT PK_Fridge PRIMARY KEY (userID, ingredientID),
+    FOREIGN KEY (userID) REFERENCES User(ID),
+    FOREIGN KEY (ingredientID) REFERENCES Ingredient(ID)
 );
