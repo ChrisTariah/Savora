@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recipes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>📖 Recipes</h1>
+</header>
+
+<div class="container">
+  <!-- Add Recipe -->
+  <h2>Add Recipe</h2>
+  <input id="name" placeholder="Recipe name">
+  <textarea id="instructions" placeholder="Recipe instructions"></textarea>
+
+  <h3>Ingredients</h3>
+  <input id="ingredient-name" placeholder="Ingredient name">
+  <input id="ingredient-qty" type="number" placeholder="Quantity">
+  <button type="button" onclick="addIngredient()">Add Ingredient</button>
+
+  <ul id="ingredient-list"></ul>
+<h3>Tags</h3>
+<input id="tag-input" placeholder="Add tags (comma-separated)">
+  <button onclick="addRecipe()">Add Recipe</button>
+
+  <!-- Recipe List -->
+  <h2>All Recipes</h2>
+  <div id="recipe-list"></div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    loadRecipes();
+  });
+</script>
+</body>
+</html>
