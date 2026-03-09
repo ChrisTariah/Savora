@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS "User" (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
     password TEXT NOT NULL,
-    privilege TEXT NOT NULL  -- valid values: 'basic', 'premium', 'admin'
+    privilege TEXT CHECK(privilege IN ('basic','premium','admin')) NOT NULL
 );
 
 -- Add userID column to Recipe table
