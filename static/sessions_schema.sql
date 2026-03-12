@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS sessions (
+    token TEXT PRIMARY KEY,
+    userID INTEGER NOT NULL,
+    FOREIGN KEY (userID) REFERENCES User(ID)
+);

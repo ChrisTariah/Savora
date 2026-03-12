@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recipes | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <h1>📖 Savora Recipes</h1>
+  <div class="nav">
+    <a href="/static/index.html">Home</a>
+    <a href="/static/login.html">Login</a>
+    <a href="/static/recipes.html">Recipes</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <section class="add-recipe">
+    <h2>Add Recipe</h2>
+    <input id="name" placeholder="Recipe name">
+    <textarea id="instructions" placeholder="Recipe instructions"></textarea>
+
+    <h3>Ingredients</h3>
+    <div class="ingredient-row">
+      <input id="ingredient-name" placeholder="Ingredient name">
+      <input id="ingredient-qty" placeholder="Quantity (just numbers)">
+      <button onclick="addIngredient()">Add</button>
+    </div>
+    <ul id="ingredient-list"></ul>
+
+    <h3>Tags</h3>
+    <input id="tag-input" placeholder="Add tags (comma separated)">
+    <button class="primary-btn" onclick="addRecipe()">Add Recipe</button>
+  </section>
+
+  <section class="recipe-section">
+    <h2>All Recipes</h2>
+    <div id="recipe-list" class="recipe-grid"></div>
+  </section>
+
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
