@@ -1,41 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Recipes</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Recipes | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
 <header>
-  <h1>📖 Recipes</h1>
+  <h1>📖 Savora Recipes</h1>
 </header>
 
 <div class="container">
-  <!-- Add Recipe -->
-  <h2>Add Recipe</h2>
-  <input id="name" placeholder="Recipe name">
-  <textarea id="instructions" placeholder="Recipe instructions"></textarea>
 
-  <h3>Ingredients</h3>
-  <input id="ingredient-name" placeholder="Ingredient name">
-  <input id="ingredient-qty" type="number" placeholder="Quantity">
-  <button type="button" onclick="addIngredient()">Add Ingredient</button>
+  <section class="add-recipe">
 
-  <ul id="ingredient-list"></ul>
-<h3>Tags</h3>
-<input id="tag-input" placeholder="Add tags (comma-separated)">
-  <button onclick="addRecipe()">Add Recipe</button>
+    <h2>Add Recipe</h2>
 
-  <!-- Recipe List -->
-  <h2>All Recipes</h2>
-  <div id="recipe-list"></div>
+    <input id="name" placeholder="Recipe name">
+
+    <textarea id="instructions" placeholder="Recipe instructions"></textarea>
+
+    <h3>Ingredients</h3>
+
+    <div class="ingredient-row">
+      <input id="ingredient-name" placeholder="Ingredient name">
+      <input id="ingredient-qty" placeholder="Quantity">
+      <button onclick="addIngredient()">Add</button>
+    </div>
+
+    <ul id="ingredient-list"></ul>
+
+    <h3>Tags</h3>
+
+    <input id="tag-input" placeholder="Add tags (comma separated)">
+
+    <button class="primary-btn" onclick="addRecipe()">Add Recipe</button>
+
+  </section>
+
+  <section class="recipe-section">
+
+    <h2>All Recipes</h2>
+
+    <div id="recipe-list" class="recipe-grid"></div>
+
+  </section>
+
 </div>
 
-<script src="app.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    loadRecipes();
-  });
-</script>
+<script src="/static/app.js"></script>
+
 </body>
 </html>
