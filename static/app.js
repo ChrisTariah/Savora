@@ -45,12 +45,14 @@ function renderIngredientList() {
 // ---------- Recipe Functions ----------
 function renderRecipe(r) {
   const tagsHtml = r.tags && r.tags.length
-    ? `<p class="tags">Tags: ${r.tags.join(", ")}</p>`
+    ? `<p class="tags">${r.tags.join(", ")}</p>`
     : "";
+
   return `
-    <div class="recipe">
-      <a href="/static/recipe.html?id=${r.id}">${r.name}</a>
+    <div class="recipe-card">
+      <h3>${r.name}</h3>
       ${tagsHtml}
+      <a class="view-btn" href="/static/recipe.html?id=${r.id}">View Recipe</a>
     </div>
   `;
 }
@@ -133,4 +135,5 @@ async function register() {
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () => {
   if (recipeListEl) loadRecipes();
+
 });
