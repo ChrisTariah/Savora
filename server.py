@@ -5,10 +5,10 @@ import sqlite3
 import uuid
 import hashlib
 import urllib.parse
-DB = "savora.db"  # new database file
+
+DB = "savora.db"  # database file
 
 # ---------- DATABASE ----------
-
 def db():
     con = sqlite3.connect(DB)
     con.execute("PRAGMA foreign_keys = ON")  # enforce foreign keys
@@ -17,8 +17,8 @@ def db():
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
-# ---------- SERVER ----------
 
+# ---------- SERVER ----------
 class RecipeHandler(BaseHTTPRequestHandler):
     def redirect(self, location):
         self.send_response(302)
@@ -40,7 +40,6 @@ class RecipeHandler(BaseHTTPRequestHandler):
         if not cookie_header:
             return None
 
-        # Split all cookies by ';' and find the session token
         cookies = cookie_header.split(";")
         session_token = None
         for c in cookies:
@@ -58,8 +57,8 @@ class RecipeHandler(BaseHTTPRequestHandler):
             (session_token,)
         ).fetchone()
         return row[0] if row else None
-    # ---------- POST ----------
 
+    # ---------- POST ----------
     def do_POST(self):
         con = db()
 
@@ -110,7 +109,6 @@ class RecipeHandler(BaseHTTPRequestHandler):
                 self.send_json({"error": "missing fields: name or instructions"}, 400)
                 return
 
-            con = db()
             try:
                 # 1️⃣ Insert recipe
                 cursor = con.execute(
@@ -119,56 +117,49 @@ class RecipeHandler(BaseHTTPRequestHandler):
                 )
                 recipe_id = cursor.lastrowid
 
-                # 2️⃣ Insert ingredients
+                # 2️⃣ Insert ingredients (store quantity as string)
                 for ing in ing_list:
-                    # expecting ing as {name: "Tomato", quantity: "200g"} or similar
                     ing_name = ing.get("name")
                     ing_qty = ing.get("quantity")
                     if not ing_name or not ing_qty:
-                        continue  # skip invalid
+                        continue
 
-                    # Check if ingredient exists
                     row = con.execute("SELECT ID FROM Ingredient WHERE name = ?", (ing_name,)).fetchone()
                     if row:
                         ing_id = row[0]
                     else:
                         cur = con.execute(
                             "INSERT INTO Ingredient (name, unit_type) VALUES (?, ?)",
-                            (ing_name, "g")  # default unit; adjust if needed
+                            (ing_name, "text")
                         )
                         ing_id = cur.lastrowid
 
-                    # Link ingredient to recipe
                     con.execute(
                         "INSERT INTO Ingredient_Line (ingredientID, recipeID, quantity) VALUES (?, ?, ?)",
-                        (ing_id, recipe_id, float(ing_qty))
+                        (ing_id, recipe_id, ing_qty)
                     )
 
-                tags_list = data.get("tags", [])  # expecting ["vegan", "halal", "vegetarian", ...]
+                # 3️⃣ Handle tags
+                tags_list = data.get("tags", [])
                 for tag_name in tags_list:
                     tag_name = tag_name.strip().lower()
                     if not tag_name:
                         continue
-
-                    # Check if tag already exists
                     tag_row = con.execute("SELECT ID FROM Tag WHERE name = ?", (tag_name,)).fetchone()
                     if tag_row:
                         tag_id = tag_row[0]
                     else:
                         cur = con.execute("INSERT INTO Tag (name) VALUES (?)", (tag_name,))
                         tag_id = cur.lastrowid
-
-                    # Link tag to recipe
                     con.execute("INSERT OR IGNORE INTO Recipe_Tag (recipeID, tagID) VALUES (?, ?)",
                                 (recipe_id, tag_id))
+
                 con.commit()
                 self.send_json({"status": "recipe added", "recipe_id": recipe_id})
-                return
 
             except Exception as e:
                 print("Error adding recipe:", e)
                 self.send_json({"error": "internal server error"}, 500)
-                return
 
         # --------- ADD FRIDGE ITEM ---------
         elif self.path == "/fridge":
@@ -183,11 +174,9 @@ class RecipeHandler(BaseHTTPRequestHandler):
             )
             con.commit()
             self.send_json({"status": "fridge updated"})
-            return
 
         else:
             self.send_json({"error": "not found"}, 404)
-            return
 
     # ---------- GET ----------
     def do_GET(self):
@@ -199,10 +188,9 @@ class RecipeHandler(BaseHTTPRequestHandler):
             if self.path in ["/", "/index.html"]:
                 self.path = "/static/index.html"
 
-            # Strip query string for static file lookup
             file_path = "." + urllib.parse.urlparse(self.path).path
 
-            # Protect recipes page
+            # Force login for recipes page
             if file_path.endswith("recipes.html") and not user_id:
                 self.redirect("/static/login.html")
                 return
@@ -231,45 +219,38 @@ class RecipeHandler(BaseHTTPRequestHandler):
             recipe_id = query.get("id", [None])[0]
 
             if recipe_id:
-                # ---------- FETCH SINGLE RECIPE ----------
+                # FETCH SINGLE RECIPE
                 r = con.execute(
                     "SELECT id, name, instructions FROM Recipe WHERE id = ?", (recipe_id,)
                 ).fetchone()
                 if not r:
                     self.send_json({"error": "recipe not found"}, 404)
                     return
-
-                recipe_id, name, instructions = r
+                rid, name, instructions = r
                 ingredients = con.execute(
                     "SELECT Ingredient.name, Ingredient_Line.quantity FROM Ingredient_Line "
                     "JOIN Ingredient ON Ingredient.ID = Ingredient_Line.ingredientID "
                     "WHERE Ingredient_Line.recipeID = ?",
-                    (recipe_id,)
+                    (rid,)
                 ).fetchall()
-                ing_list = [{"name": i[0], "quantity": i[1]} for i in ingredients]
-
                 tags = con.execute(
                     "SELECT Tag.name FROM Recipe_Tag "
                     "JOIN Tag ON Tag.ID = Recipe_Tag.tagID "
                     "WHERE Recipe_Tag.recipeID = ?",
-                    (recipe_id,)
+                    (rid,)
                 ).fetchall()
 
-                tag_list = [t[0] for t in tags]
-
-                # Include in response
                 self.send_json({
-                    "id": recipe_id,
+                    "id": rid,
                     "name": name,
                     "instructions": instructions,
-                    "ingredients": ing_list,
-                    "tags": tag_list
+                    "ingredients": [{"name": i[0], "quantity": i[1]} for i in ingredients],
+                    "tags": [t[0] for t in tags]
                 })
-
-                return  # stop here for single recipe
+                return
 
             else:
-                # ---------- FETCH ALL RECIPES ----------
+                # FETCH ALL RECIPES
                 recipes = con.execute("SELECT id, name, instructions FROM Recipe").fetchall()
                 result = []
                 for r in recipes:
@@ -284,22 +265,19 @@ class RecipeHandler(BaseHTTPRequestHandler):
                         "SELECT Tag.name FROM Recipe_Tag "
                         "JOIN Tag ON Tag.ID = Recipe_Tag.tagID "
                         "WHERE Recipe_Tag.recipeID = ?",
-                        (recipe_id,)
+                        (rid,)
                     ).fetchall()
-
-                    tag_list = [t[0] for t in tags]
-
                     result.append({
                         "id": rid,
                         "name": name,
                         "instructions": instructions,
-                        "ingredients": ingredients,
-                        "tags": tag_list
+                        "ingredients": [{"name": i[0], "quantity": i[1]} for i in ingredients],
+                        "tags": [t[0] for t in tags]
                     })
-
                 self.send_json(result)
                 return
-        # --------- GET USER FRIDGE ---------
+
+        # GET FRIDGE
         if self.path == "/fridge":
             if not user_id:
                 self.send_json({"error": "login required"}, 403)
@@ -309,11 +287,9 @@ class RecipeHandler(BaseHTTPRequestHandler):
             return
 
         self.send_json({"error": "not found"}, 404)
-        return
 
 
 # ---------- RUN SERVER ----------
-
 if __name__ == "__main__":
     print("Server running on http://localhost:8000")
     HTTPServer(("localhost", 8000), RecipeHandler).serve_forever()

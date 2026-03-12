@@ -18,7 +18,9 @@ function addIngredient() {
   const qty = ingredientQtyInput.value.trim();
   if (!name || !qty) return alert("Enter both name and quantity");
 
-  ingredients.push({ name, quantity: qty });
+  if (isNaN(parseFloat(qty))) return alert("Quantity must be a number!");
+
+  ingredients.push({ name, quantity: parseFloat(qty) });
   ingredientNameInput.value = "";
   ingredientQtyInput.value = "";
   renderIngredientList();
@@ -47,7 +49,6 @@ function renderRecipe(r) {
   const tagsHtml = r.tags && r.tags.length
     ? `<p class="tags">${r.tags.join(", ")}</p>`
     : "";
-
   return `
     <div class="recipe-card">
       <h3>${r.name}</h3>
@@ -56,6 +57,7 @@ function renderRecipe(r) {
     </div>
   `;
 }
+
 async function loadRecipes() {
   try {
     const res = await fetch("/recipes", { credentials: "same-origin" });
@@ -83,7 +85,7 @@ async function addRecipe() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "same-origin",
-      body: JSON.stringify({ name, instructions, ingredients })
+      body: JSON.stringify({ name, instructions, ingredients, tags })
     });
 
     if (res.ok) {
@@ -135,5 +137,4 @@ async function register() {
 // ---------- Init ----------
 document.addEventListener("DOMContentLoaded", () => {
   if (recipeListEl) loadRecipes();
-
 });
