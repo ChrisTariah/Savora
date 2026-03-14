@@ -3,15 +3,12 @@ import os
 
 DB_FILE = "../Savora.db"
 
-# Order matters: Minimum schema first, then users, ingredients, tags, fridge, API columns
 SQL_FILES = [
-    "Minimum_Viable_Schema.sql",
-    "user_schema.sql",
-    "Ingredient_Schema.sql",
-    "Ingredinent_API_Schema.sql",
-    "tags_schema.sql",
-    "Fridge_schema.sql"
-]
+    "static/Base_Schema.sql",
+    "static/Test_Data.sql" 
+    # For some reason this script is searching the parent directory ??
+    # "static/" required to read files
+] 
 
 def connect_db():
     return sqlite3.connect(DB_FILE)
@@ -39,29 +36,10 @@ def main():
         if os.path.exists(file):
             execute_sql_file(con, file)
         else:
-            print(f"WARNING: {file} not found!")
-
-    # Make sure the Recipe table has userID (avoid duplicate column)
-    cursor = con.cursor()
-    cursor.execute("PRAGMA table_info(Recipe);")
-    columns = [c[1] for c in cursor.fetchall()]
-    if "userID" not in columns:
-        cursor.execute("ALTER TABLE Recipe ADD COLUMN userID INTEGER NOT NULL DEFAULT 0;")
-        con.commit()
-        print("Added userID column to Recipe table")
-
-    # Create sessions table if not exists
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS sessions (
-            token TEXT PRIMARY KEY,
-            userID INTEGER
-        );
-    """)
-    con.commit()
-    cursor.close()
-    con.close()
+            raise FileNotFoundError(f"WARNING: {file} not found!")
 
     print("✅ Database setup completed successfully!")
 
 if __name__ == "__main__":
+    #print(os.listdir()) # Why is it searching parent directory ???
     main()
