@@ -16,3 +16,5 @@ Additionally there is a file [Query_Library.sql](./static/Query_Library.sql) tha
 AND Fridge.userID = 1 -- Replace with desired user 
 ```
 This is the search parameter or filter being applied and should be set by user interaction or account information (userID).
+
+There is also the file [database_terminal_session.py](./database_terminal_session.py) which will allow you to open the [Savora.db](./Savora.db) file and interact with it using SQLite commands for testing and development purposes.
