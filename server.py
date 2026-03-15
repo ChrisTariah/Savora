@@ -104,20 +104,20 @@ class RecipeHandler(BaseHTTPRequestHandler):
             name = data.get("name")
             instructions = data.get("instructions")
             ing_list = data.get("ingredients", [])
-
+            image = data.get("image")
             if not name or not instructions:
                 self.send_json({"error": "missing fields: name or instructions"}, 400)
                 return
 
             try:
-                # 1️⃣ Insert recipe
+                # 1 Insert recipe
                 cursor = con.execute(
-                    "INSERT INTO Recipe (name, instructions, userID) VALUES (?, ?, ?)",
-                    (name, instructions, user_id)
+                    "INSERT INTO Recipe (name, instructions, userID, image) VALUES (?, ?, ?, ?)",
+                    (name, instructions, user_id, image)
                 )
                 recipe_id = cursor.lastrowid
 
-                # 2️⃣ Insert ingredients (store quantity as string)
+                # 2 Insert ingredients (store quantity as string)
                 for ing in ing_list:
                     ing_name = ing.get("name")
                     ing_qty = ing.get("quantity")
@@ -130,7 +130,7 @@ class RecipeHandler(BaseHTTPRequestHandler):
                     else:
                         cur = con.execute(
                             "INSERT INTO Ingredient (name, unit_type) VALUES (?, ?)",
-                            (ing_name, "text")
+                            (ing_name, "cnt")
                         )
                         ing_id = cur.lastrowid
 
@@ -139,7 +139,7 @@ class RecipeHandler(BaseHTTPRequestHandler):
                         (ing_id, recipe_id, ing_qty)
                     )
 
-                # 3️⃣ Handle tags
+                # 3 Handle tags
                 tags_list = data.get("tags", [])
                 for tag_name in tags_list:
                     tag_name = tag_name.strip().lower()
@@ -221,12 +221,12 @@ class RecipeHandler(BaseHTTPRequestHandler):
             if recipe_id:
                 # FETCH SINGLE RECIPE
                 r = con.execute(
-                    "SELECT id, name, instructions FROM Recipe WHERE id = ?", (recipe_id,)
+                    "SELECT id, name, instructions, image FROM Recipe WHERE id = ?", (recipe_id,)
                 ).fetchone()
                 if not r:
                     self.send_json({"error": "recipe not found"}, 404)
                     return
-                rid, name, instructions = r
+                rid, name, instructions, image = r
                 ingredients = con.execute(
                     "SELECT Ingredient.name, Ingredient_Line.quantity FROM Ingredient_Line "
                     "JOIN Ingredient ON Ingredient.ID = Ingredient_Line.ingredientID "
@@ -245,16 +245,17 @@ class RecipeHandler(BaseHTTPRequestHandler):
                     "name": name,
                     "instructions": instructions,
                     "ingredients": [{"name": i[0], "quantity": i[1]} for i in ingredients],
-                    "tags": [t[0] for t in tags]
+                    "tags": [t[0] for t in tags],
+                    "image": image
                 })
                 return
 
             else:
                 # FETCH ALL RECIPES
-                recipes = con.execute("SELECT id, name, instructions FROM Recipe").fetchall()
+                recipes = con.execute("SELECT id, name, instructions, image FROM Recipe").fetchall()
                 result = []
                 for r in recipes:
-                    rid, name, instructions = r
+                    rid, name, instructions, image = r
                     ingredients = con.execute(
                         "SELECT Ingredient.name, Ingredient_Line.quantity FROM Ingredient_Line "
                         "JOIN Ingredient ON Ingredient.ID = Ingredient_Line.ingredientID "
@@ -272,7 +273,8 @@ class RecipeHandler(BaseHTTPRequestHandler):
                         "name": name,
                         "instructions": instructions,
                         "ingredients": [{"name": i[0], "quantity": i[1]} for i in ingredients],
-                        "tags": [t[0] for t in tags]
+                        "tags": [t[0] for t in tags],
+                        "image": image
                     })
                 self.send_json(result)
                 return
