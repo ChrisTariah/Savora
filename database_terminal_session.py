@@ -9,7 +9,7 @@ RESULT_SYMBOL : str = "----------------------------"
 def main() -> None:
         # Get user commands
         command : str = ""
-        prompt : str = "> "
+        prompt : str = NEW_LINE_SYMBOL
         while True:
             try:
                 command += input(prompt)
