@@ -1,45 +1,56 @@
 import sqlite3
 import os
+from typing import Tuple
 
-DB_FILE = "../Savora.db"
+DB_NAME : str = "Savora.db"
+'''Name of database to be created'''
 
-SQL_FILES = [
+DB_PATH : str = ""
+'''Path to database location. Empty if root'''
+
+SQL_FILES : Tuple[str,...] = (
+    # Note that the order listed is the order they will run
     "static/Base_Schema.sql",
-    "static/Test_Data.sql" 
-    # For some reason this script is searching the parent directory ??
-    # "static/" required to read files
-] 
+    "static/Test_Data.sql"
+)
+'''List of sql files used to create and populate the new database.'''
 
-def connect_db():
-    return sqlite3.connect(DB_FILE)
+def execute_sql_file(con : sqlite3.Cursor, filename: str) -> None:
+    '''
+    Executes the given sql on the given database
 
-def execute_sql_file(con, filename):
+    :param con: Database to be modified
+    :param filename: SQL file to be run
+    :returns: None
+    '''
     print(f"Running {filename}...")
     with open(filename, "r", encoding="utf-8") as f:
         sql_script = f.read()
-    cursor = con.cursor()
-    cursor.executescript(sql_script)
-    con.commit()
-    cursor.close()
+    con.executescript(sql_script)
     print(f"{filename} completed.\n")
 
 def main():
-    # Remove old database for a clean slate
-    if os.path.exists(DB_FILE):
-        print("Removing old database file...")
-        os.remove(DB_FILE)
+    if len(SQL_FILES) == 0: raise ValueError("No sql files provided")
 
-    con = connect_db()
-    print("Creating new database...")
+    print("Creating new database file...")
+    NEW_DB : str = "temp.db"
+    with sqlite3.connect(DB_PATH+NEW_DB) as conn:
+        db : sqlite3.Cursor = conn.cursor()
+        conn.execute("PRAGMA foreign_keys = ON")  # enforce foreign keys
 
-    for file in SQL_FILES:
-        if os.path.exists(file):
-            execute_sql_file(con, file)
-        else:
-            raise FileNotFoundError(f"WARNING: {file} not found!")
+        print("Populating database with files...")
+        for file in SQL_FILES:
+            execute_sql_file(db, file)
+    conn.close() # Explicit closing needed even with context manager (?!)
+        
+    print("Replacing old database file with new...")
+    try:
+        os.remove(DB_PATH+DB_NAME)
+    except FileNotFoundError:
+        print("WARNING: Old database not found")
+    os.rename(DB_PATH+NEW_DB, DB_PATH+DB_NAME)
 
     print("✅ Database setup completed successfully!")
 
 if __name__ == "__main__":
-    #print(os.listdir()) # Why is it searching parent directory ???
     main()
