@@ -22,6 +22,8 @@ def main() -> None:
                 db.execute(command)
                 for row in db.fetchall():
                     print(row)
+                command = ""
+                prompt = "> "
             except Exception as e:
                 command = ""
                 prompt = "> "
