@@ -80,6 +80,49 @@ button.secondary:hover { background:#545b62; }
 .recipe-card .tags { font-size:13px; color:#777; }
 .view-btn { display:inline-block; margin-top:12px; background:#ff7a18; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; }
 .view-btn:hover { background:#e86a0c; }
+.recipe-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+.recipe-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+}
+
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+.recipe-detail-img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+#recipe-instructions {
+    margin-top: 20px;
+    line-height: 1.6;
+}
+
+#recipe-ingredients li,
+#recipe-tags li {
+    margin-bottom: 6px;
+}
 
 /* ---------- Messages ---------- */
 .msg { margin-top:15px; font-size:14px; color:#444; }
