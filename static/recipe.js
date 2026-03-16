@@ -2,6 +2,7 @@
 const nameEl = document.getElementById("recipe-name");
 const instructionsEl = document.getElementById("recipe-instructions");
 const ingredientsEl = document.getElementById("recipe-ingredients");
+const imageEl = document.getElementById("recipe-image");
 
 // ---------- Get recipe ID from URL ----------
 const recipeId = new URLSearchParams(window.location.search).get("id");
@@ -20,7 +21,7 @@ async function loadRecipe() {
     }
 
     const r = await res.json();
-
+    imageEl.src = r.image || "/static/images.jpg";
     nameEl.innerText = r.name;
     instructionsEl.innerText = r.instructions;
     ingredientsEl.innerHTML = r.ingredients
