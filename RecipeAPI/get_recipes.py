@@ -154,7 +154,7 @@ def extract_ingredient(meal: dict[str,str], index : int) -> dict[str,str]:
         "heads","head","pods","pod","slices","dried","strips","strip","sticks","stick","cm",
         "packet","zest and juice of","juice of","juice","parts","part","cans","can","zest of","package",
         "bunches","bunch","boneless","boiling","pieces","piece","jars","jar","fresh","pot",
-        "skinnless","packs","pack","scoops","scoop","pinches","pinch","inch","inches","kaffir",
+        "skinnless","packs","pack","scoops","scoop","pinches","pinch","inches","inch","kaffir",
         "wedges","wedge","meaty","shanks","shank","stewing","skinned","skin","knobs","knob","shots",
         "shot","handfull","handful","fillets","fillet","florets","floret","bags","bag","tins","tin",
         # Adverb
@@ -164,8 +164,9 @@ def extract_ingredient(meal: dict[str,str], index : int) -> dict[str,str]:
         "diced","beaten","quartered","quarters","shredded","cubed","cubes","chunks","mashed"
         ]
     for phrase in descriptions:
-        if phrase in quantity_unit.lower():
+        if phrase in quantity_unit:
             name += " " + phrase
+            quantity_unit = quantity_unit.replace(phrase, "")
             phrase_no_whitespace = phrase.replace(" ", "")
             unit = unit.replace(phrase_no_whitespace,"")
 
@@ -204,38 +205,6 @@ def extract_ingredient(meal: dict[str,str], index : int) -> dict[str,str]:
         
     return {"name":name,"unit":unit,"quantity":str(quantity)}
 
-def build_ingredients(meals: list[dict[str,str]]) -> dict[str,int]:
-    """
-    Extracts and IDs all ingredients used in recipes from API
-
-    :param meals: List of all meals from API
-    :returns: Set of all ingredients used in recipes like:\n
-            {"carrot(g)" \: 1,\n
-             "carrot(cnt)" \: 2,\n
-             "milk(ml)" \: 3}
-    """
-    # Extract all ingredients in all recipes
-    all_ingredients : list[str]= []
-    for meal in meals:
-        try:
-            for i in range(1,21): # 20 ingredients per recipe
-                ingredient : dict[str,str] = extract_ingredient(meal, i)
-                if not ingredient: continue
-                all_ingredients.append(f"{ingredient["name"]}({ingredient["unit"]})")
-        except ValueError as e:
-            logging.debug(e)
-            continue
-    
-    # Add only unique ingredients to dictionary
-    unique_ingredients : set[str] = set(all_ingredients)
-    identified_ingredients : dict[str,int] = {}
-    next_ID : int = INGREDIENT_STARTING_ID
-    for name in unique_ingredients:
-        identified_ingredients[name] = next_ID
-        next_ID += 1
-    
-    return identified_ingredients
-    
 def build_tags(meals: list[dict[str,str]]) -> dict[str,int]:
     """
     Extracts and IDs all tags from recipes
