@@ -15,10 +15,6 @@ SEARCH_URL : str = f"https://www.themealdb.com/api/json/v1/{API_KEY}/search.php?
 
 DATABASE_PATH: str = "Savora.db"
 
-# If adding to a populated database, set these higher than the max ID of the respective table
-RECIPE_STARTING_ID: int     = 1
-INGREDIENT_STARTING_ID: int = 1
-
 # Logging stats
 total_meals: int        = 0
 failed_meals: int       = 0
@@ -380,6 +376,46 @@ def add_recipes(recipes: RecipeType, db: str) -> None:
             add_recipe_tag: str = "INSERT INTO Recipe_Tag (recipeID, tagID) VALUES (?,?)"
             execute_sql(add_recipe_tag, (recipeID,tagID), db=db)
             
+def add_all_ingredients(meals : list[dict[str,str]]) -> None:
+    """
+    Extracts all ingredients and adds them to the database, regardless of if the recipe they come 
+    from is usable.
+
+    :param meals: The meal data from the API
+    :returns: None
+    """
+    logging.info("Adding skipped ingredients...")
+    total_ingredients: int  = 0
+    failed_ingredients: int = 0
+    new_ingredients: int    = 0
+
+    for meal in meals:
+        for index in range(1,21): # 20 ingredient lines per meal
+            # Get ingredient info
+            ingredient: dict[str,str] = {}
+            try:
+                ingredient = extract_ingredient(meal,index)
+            except ValueError:
+                failed_ingredients += 1
+                total_ingredients += 1
+            if not ingredient: continue # Failed to parse or empty line
+            total_ingredients += 1
+            name: str = ingredient["name"]
+            unit: str = ingredient["unit"]
+            search_ingredient_query: str = findID("Ingredient", "name", "?")
+            # Search for it in database
+            if execute_sql(search_ingredient_query, (name,), db=DATABASE_PATH):
+                logging.debug(f"Ingredient \"{name}\" already exists")
+                continue
+            # Add it to database
+            execute_sql("INSERT INTO Ingredient (name, unit_type) VALUES (?, ?);", 
+                        (name, unit), db=DATABASE_PATH)
+            new_ingredients += 1
+
+    # Stats
+    passed_ingredients: int = total_ingredients - failed_ingredients
+    percent_added: int = round((passed_ingredients/total_ingredients)*100) 
+    logging.info(f"Ingredients extracted = {percent_added}% [{passed_ingredients}/{total_ingredients}] ({new_ingredients} new)")
 
 
 def main() -> None:
@@ -390,6 +426,7 @@ def main() -> None:
     # Add info to database
     add_recipes(recipes, DATABASE_PATH)
     logging.info(f"Meals extracted: {round(((total_meals-failed_meals)/total_meals)*100)}% [{total_meals-failed_meals}/{total_meals}]")
+    add_all_ingredients(meals)
     
 
 if __name__ == "__main__":
