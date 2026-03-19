@@ -223,6 +223,13 @@ class RecipeHandler(BaseHTTPRequestHandler):
             )
             con.commit()
             self.send_json({"status": "added to fridge"})
+            
+            #Nutrional info 
+        elif self.path == "/nutritional-info":
+            data = self.read_json()
+            ing = data.get("ingredient")
+            self.send_json({"ingredient": ing, "calories": 100, "protein": 5, "carbs": 20, "fat": 2})
+            return
         elif self.path == "/chat":
             user_id = self.get_session_user()
             if not user_id:
