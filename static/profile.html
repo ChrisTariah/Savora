@@ -1,10 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+  <title>Profile | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-$END$
+
+<header>
+  <h1>👤 Savora Profile</h1>
+  <div class="nav">
+    <a href="/static/index.html">Home</a>
+    <a href="/static/recipes.html">Browse Recipes</a>
+    <a href="#" onclick="logout()">Logout</a>
+  </div>
+</header>
+
+<div class="container">
+
+  <h2 id="welcome-msg">Welcome 👋</h2>
+
+  <!-- ACTION BUTTONS -->
+  <div class="profile-actions">
+    <button onclick="toggleCreate()">➕ Create Recipe</button>
+  </div>
+
+  <!-- CREATE RECIPE (HIDDEN) -->
+  <section id="create-section" style="display:none;">
+    <h2>Create Recipe</h2>
+
+    <input id="name" placeholder="Recipe name">
+    <textarea id="instructions" placeholder="Instructions"></textarea>
+
+    <input id="image-url" placeholder="Image URL">
+
+    <h3>Ingredients</h3>
+    <div class="ingredient-row">
+    <input id="ingredient-search" placeholder="Search ingredient...">
+    <ul id="ingredient-results"></ul>
+
+    <input id="ingredient-qty" placeholder="Quantity">
+    <span id="unit-label"></span>
+      <button onclick="addIngredient()">Add</button>
+    </div>
+    <ul id="ingredient-list"></ul>
+
+    <h3>Tags</h3>
+    <input id="tag-input" placeholder="comma,separated">
+
+    <button onclick="addRecipe()">Create</button>
+  </section>
+
+  <!-- MY RECIPES -->
+  <section>
+    <h2>My Recipes</h2>
+    <div id="my-recipes" class="recipe-grid"></div>
+  </section>
+
+  <!-- MY FRIDGE -->
+  <section>
+    <h2>My Fridge</h2>
+
+    <div class="ingredient-row">
+
+      <input id="fridge-search" placeholder="Search ingredient...">
+      <ul id="fridge-results"></ul>
+
+      <input id="fridge-qty" placeholder="Quantity">
+      <span id="fridge-unit"></span>
+
+      <button onclick="addToFridge()">Add</button>
+    </div>
+    <ul id="fridge-list"></ul>
+  </section>
+
+</div>
+
+<!--AI CHAT BOX -->
+<img src="/static/ai_avatar.jpg" id="ai-btn"
+     style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;cursor:pointer;">
+
+<div id="ai-chat" style="display:none;position:fixed;bottom:80px;right:20px;width:300px;height:400px;background:#fff;border:1px solid #ccc;padding:10px;overflow:auto;">
+  <div id="chat-messages"></div>
+  <input id="chat-input" placeholder="Ask me a recipe..." style="width:75%;">
+  <button onclick="sendMessage()">Send</button>
+
+</div>
+
+<script src="/static/ai.js"></script>
+<script src="/static/app.js"></script>
+<script src="/static/profile.js"></script>
 </body>
 </html>

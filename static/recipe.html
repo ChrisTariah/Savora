@@ -21,6 +21,18 @@
   <ul id="recipe-ingredients"></ul>
 </div>
 
-<script src="recipe.js"></script>
+<!--AI CHAT BOX -->
+<img src="/static/ai_avatar.jpg" id="ai-btn"
+     style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;cursor:pointer;">
+
+<div id="ai-chat" style="display:none;position:fixed;bottom:80px;right:20px;width:300px;height:400px;background:#fff;border:1px solid #ccc;padding:10px;overflow:auto;">
+  <div id="chat-messages"></div>
+  <input id="chat-input" placeholder="Ask me a recipe..." style="width:75%;">
+  <button onclick="sendMessage()">Send</button>
+
+</div>
+
+<script src="/static/ai.js"></script>
+<script src="/static/recipe.js"></script>
 </body>
 </html>
