@@ -3,13 +3,12 @@ CREATE TABLE IF NOT EXISTS User (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
     password TEXT NOT NULL,
-    email TEXT,
-    CHECK (
+    email TEXT CHECK (
         email LIKE '%_@_%._%' AND
         LENGTH(email) - LENGTH(REPLACE(email, '@', '')) = 1 AND
         SUBSTR(LOWER(email), 1, INSTR(email, '.') - 1) NOT GLOB '*[^@0-9a-z]*' AND
         SUBSTR(LOWER(email), INSTR(email, '.') + 1) NOT GLOB '*[^a-z]*'
-    )
+    ),
     privilege TEXT CHECK(privilege IN ('basic','premium','admin')) NOT NULL
 );
 
@@ -42,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Recipe_Tag (
 CREATE TABLE IF NOT EXISTS Ingredient (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    unit_type TEXT CHECK(unit_type IN ('g', 'ml', 'tsp', 'tbsp','cnt')) NOT NULL
+    unit_type TEXT CHECK(unit_type IN ('g', 'ml', 'tsp', 'tbsp','cnt')) NOT NULL,
     -- price REAL NOT NULL, -- Uncomment when this become available via the API 
     -- nutrient info left as null as per request of nutrient dev team. 
     -- Recommend this be changed to not null once nutrient API is fully implemented. 
