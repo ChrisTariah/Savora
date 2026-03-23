@@ -33,10 +33,16 @@ async function login() {
   }
 }
 
-async function register() {
-  const username = document.getElementById("username");
-  const password = document.getElementById("password");
-  const msg = document.getElementById("msg");
+async function registerUser() {
+  const username = document.getElementById("register-username");
+  const email = document.getElementById("register-email");
+  const password = document.getElementById("register-password");
+  const msg = document.getElementById("register-msg");
+
+  if (!username.value || !email.value || !password.value) {
+    msg.innerText = "Please fill in all fields";
+    return;
+  }
 
   const res = await fetch("/register", {
     method: "POST",
@@ -44,20 +50,18 @@ async function register() {
     credentials: "same-origin",
     body: JSON.stringify({
       username: username.value,
+      email: email.value,
       password: password.value
     })
   });
 
   const data = await res.json();
-  msg.innerText = data.status || data.error || "Unknown error";
-}
 
-async function logout() {
-  await fetch("/logout", {
-    method: "POST",
-    credentials: "same-origin"
-  });
-  location.href = "/static/index.html";
+  if (res.ok) {
+    msg.innerText = data.status || "Registration successful!";
+  } else {
+    msg.innerText = data.error || "Registration failed";
+  }
 }
 
 // ---------- Shared helper ----------
@@ -67,8 +71,6 @@ async function checkAuth() {
     location.href = "/static/login.html";
   }
 }
-
-
 
 async function loadNavbar() {
   const nav = document.getElementById("nav-links");
@@ -87,12 +89,12 @@ async function loadNavbar() {
       nav.innerHTML = `
         <a href="/static/index.html">Home</a>
         <a href="/static/login.html">Login</a>
+        <a href="/static/register.html">Register</a>
       `;
     }
   } catch (err) {
     console.error("Navbar error:", err);
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", loadNavbar);

@@ -1,77 +1,326 @@
-/* ---------- Reset ---------- */
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-body { background: linear-gradient(135deg,#fff7f1,#f4f6f8); color: #2d2d2d; min-height:100vh; }
+/* =========================
+   RESET
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
-/* ---------- Header ---------- */
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: linear-gradient(135deg, #f8f4ef, #f3f5f8);
+  color: #2d2d2d;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* =========================
+   HEADER
+========================= */
 header {
-  background: linear-gradient(135deg,#ff914d,#ff7a18);
+  background: linear-gradient(135deg, #ff914d, #ff7a18);
   color: white;
-  padding: 20px 40px;
+  padding: 18px 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
-header h1 { font-size:28px; font-weight:700; }
+
+header h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
 .nav a {
-  color:white; text-decoration:none; margin-left:20px;
-  font-weight:600; padding:10px 18px; border-radius:6px; transition:0.3s;
+  color: white;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: 0.25s ease;
 }
-.nav a:hover { background: rgba(255,255,255,0.25); }
 
-/* ---------- Hero Buttons ---------- */
-.hero-buttons a {
-  display:inline-block; margin:12px 8px; padding:12px 22px; border-radius:8px;
-  font-weight:600; text-decoration:none; transition:0.3s;
+.nav a:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
-.btn { background:#ff7a18; color:#fff; }
-.btn:hover { background:#e86a0c; }
-.btn-outline { border:2px solid #ff7a18; color:#ff7a18; }
-.btn-outline:hover { background:#ff7a18; color:white; }
 
-/* ---------- Container ---------- */
+/* =========================
+   GENERAL CONTAINER
+========================= */
 .container {
-  max-width: 800px;
-  margin: 60px auto;
-  background:white;
-  padding:40px;
-  border-radius:14px;
-  text-align:center;
-  box-shadow:0 15px 35px rgba(0,0,0,0.08),0 5px 15px rgba(0,0,0,0.05);
+  max-width: 900px;
+  margin: 50px auto;
+  background: white;
+  padding: 36px;
+  border-radius: 18px;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.08);
   animation: fadeIn 0.6s ease;
 }
-.container h2 { margin-bottom:15px; }
-.container h3 { margin:25px 0 10px; }
 
-/* ---------- Inputs ---------- */
-input, textarea {
-  width:100%; padding:12px; margin-top:10px; border-radius:6px;
-  border:1px solid #ccc; font-size:14px;
+.container h2 {
+  margin-bottom: 14px;
 }
-textarea { min-height:100px; resize: vertical; }
 
-/* ---------- Buttons ---------- */
-button {
-  margin-top:15px; padding:10px 16px; background:#ff7a18;
-  border:none; border-radius:6px; color:white; font-weight:600; cursor:pointer; transition:0.2s;
+.container h3 {
+  margin: 24px 0 10px;
 }
-button:hover { background:#e86a0c; }
-button.secondary { background:#6c757d; }
-button.secondary:hover { background:#545b62; }
 
-/* ---------- Login ---------- */
-.login-card { max-width:400px; margin:auto; }
-.auth-buttons { display:flex; gap:10px; justify-content:center; }
+/* =========================
+   FORMS
+========================= */
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
 
-/* ---------- Ingredient Section ---------- */
-.ingredient-row { display:flex; gap:10px; margin-top:10px; }
-#ingredient-list { list-style:none; margin-top:15px; }
-#ingredient-list li { display:flex; justify-content:space-between; background:#f6f6f6; padding:8px 12px; border-radius:6px; margin-bottom:6px; }
-#ingredient-list button { background:transparent; color:red; border:none; cursor:pointer; }
-#ingredient-results, #fridge-results {
+input,
+textarea {
+  width: 100%;
+  padding: 14px 16px;
+  margin-top: 8px;
+  border: 1px solid #d8d8d8;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: 0.25s ease;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #ff7a18;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(255, 122, 24, 0.12);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+button,
+.btn,
+.btn-outline {
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+button,
+.btn {
+  background: linear-gradient(135deg, #ff914d, #ff7a18);
+  color: white;
+}
+
+button:hover,
+.btn:hover {
+  background: linear-gradient(135deg, #ea690b, #ff7a18);
+}
+
+button.secondary,
+.btn-outline {
+  background: white;
+  color: #ff7a18;
+  border: 2px solid #ff7a18;
+}
+
+button.secondary:hover,
+.btn-outline:hover {
+  background: #ff7a18;
+  color: white;
+}
+
+/* =========================
+   HOME PAGE
+========================= */
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-container {
+  text-align: center;
+  max-width: 650px;
+  padding: 20px;
+}
+
+.home-title {
+  font-size: 54px;
+  color: #ff7a18;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.home-subtitle {
+  font-size: 38px;
+  margin-bottom: 16px;
+  color: #222;
+  line-height: 1.2;
+}
+
+.home-text {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.home-buttons,
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* =========================
+   LOGIN / REGISTER PAGE
+========================= */
+.login-card {
+  max-width: 420px;
+  margin: 90px auto;
+  padding: 35px 30px;
+  text-align: left;
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 32px;
+  color: #222;
+}
+
+.login-card p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"],
+.login-card input[type="email"] {
+  margin-bottom: 14px;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0 20px;
+  gap: 12px;
+}
+
+.login-options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+}
+
+.login-options input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.login-options a {
+  color: #666;
+  font-size: 14px;
+}
+
+.login-options a:hover {
+  color: #ff7a18;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.auth-buttons button {
+  flex: 1;
+}
+
+.msg {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+  min-height: 20px;
+}
+
+/* =========================
+   RECIPES PAGE
+========================= */
+.ingredient-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.ingredient-row button {
+  white-space: nowrap;
+}
+
+#ingredient-list {
+  list-style: none;
+  margin-top: 15px;
+}
+
+#ingredient-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f6f6f6;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+#ingredient-list button {
+  background: transparent;
+  color: red;
+  border: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
+#ingredient-results,
+#fridge-results {
   list-style: none;
   background: white;
   border: 1px solid #ccc;
@@ -82,75 +331,159 @@ button.secondary:hover { background:#545b62; }
   z-index: 100;
 }
 
-#ingredient-results li, #fridge-results li {
+#ingredient-results li,
+#fridge-results li {
   padding: 8px;
   cursor: pointer;
 }
 
-#ingredient-results li:hover, #fridge-results li:hover {
+#ingredient-results li:hover,
+#fridge-results li:hover {
   background: #f0f0f0;
 }
-/* ---------- Recipes Grid ---------- */
-.recipe-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; margin-top:20px; }
-.recipe-card { background:white; padding:20px; border-radius:10px; box-shadow:0 6px 14px rgba(0,0,0,0.1); text-align:left; transition: transform 0.2s; }
-.recipe-card:hover { transform:translateY(-5px); }
-.recipe-card h3 { margin-bottom:10px; }
-.recipe-card .tags { font-size:13px; color:#777; }
-.view-btn { display:inline-block; margin-top:12px; background:#ff7a18; color:white; padding:6px 12px; border-radius:4px; text-decoration:none; }
-.view-btn:hover { background:#e86a0c; }
-.recipe-img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
+
+/* =========================
+   RECIPE GRID
+========================= */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
 }
+
 .recipe-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.2s ease;
 }
 
 .recipe-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
-.recipe-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+.recipe-card h3 {
+  margin-bottom: 10px;
+  font-size: 22px;
 }
+
+.recipe-card .tags {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.view-btn {
+  display: inline-block;
+  margin-top: 12px;
+  background: linear-gradient(135deg, #ff914d, #ff7a18);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.view-btn:hover {
+  background: linear-gradient(135deg, #ea690b, #ff7a18);
+}
+
+.recipe-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* =========================
+   RECIPE DETAIL PAGE
+========================= */
 .recipe-detail-img {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 12px;
-    margin: 20px 0;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}.container {
-    max-width: 900px;
-    margin: auto;
-    padding: 40px 20px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  margin: 20px 0;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 #recipe-instructions {
-    margin-top: 20px;
-    line-height: 1.6;
+  margin-top: 20px;
+  line-height: 1.7;
 }
 
 #recipe-ingredients li,
 #recipe-tags li {
-    margin-bottom: 6px;
+  margin-bottom: 6px;
 }
 
-/* ---------- Messages ---------- */
-.msg { margin-top:15px; font-size:14px; color:#444; }
+/* =========================
+   ANIMATION
+========================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
-/* ---------- Animations ---------- */
-@keyframes fadeIn { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
 
-/* ---------- Responsive ---------- */
-@media(max-width:700px){
-  header{ flex-direction:column; gap:12px; text-align:center; }
-  .ingredient-row{ flex-direction:column; }
-  .container{ margin:30px 15px; padding:25px; }
+  .nav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .container {
+    margin: 30px 15px;
+    padding: 25px;
+  }
+
+  .ingredient-row {
+    flex-direction: column;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+  }
+
+  .login-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .home-title {
+    font-size: 42px;
+  }
+
+  .home-subtitle {
+    font-size: 30px;
+  }
+
+  .home-text {
+    font-size: 16px;
+  }
+}
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #fff5ec;
 }

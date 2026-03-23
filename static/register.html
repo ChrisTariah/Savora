@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <h1>📝 Savora Register</h1>
+
+  <div class="nav">
+    <a href="/static/index.html">Home</a>
+    <a href="/static/recipes.html">Recipes</a>
+  </div>
+</header>
+
+<div class="container login-card">
+  <h2>Create Account</h2>
+  <p class="msg">Sign up to start using Savora.</p>
+
+  <label>Username</label>
+  <input id="register-username" type="text" placeholder="Enter your username">
+
+  <label>Email</label>
+  <input id="register-email" type="email" placeholder="Enter your email">
+
+  <label>Password</label>
+  <input id="register-password" type="password" placeholder="Enter your password">
+
+  <div class="auth-buttons">
+    <button onclick="registerUser()">Register</button>
+  </div>
+
+  <p class="msg">
+    Already have an account?
+    <a href="/static/login.html">Login here</a>
+  </p>
+
+  <p id="register-msg" class="msg"></p>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
