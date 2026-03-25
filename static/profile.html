@@ -1,93 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile | Savora</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<header>
-  <h1>👤 Savora Profile</h1>
-  <div class="nav">
-    <a href="/static/index.html">Home</a>
-    <a href="/static/recipes.html">Browse Recipes</a>
-    <a href="#" onclick="logout()">Logout</a>
-  </div>
-</header>
-
-<div class="container">
-
-  <h2 id="welcome-msg">Welcome 👋</h2>
-
-  <!-- ACTION BUTTONS -->
-  <div class="profile-actions">
-    <button onclick="toggleCreate()">➕ Create Recipe</button>
-  </div>
-
-  <!-- CREATE RECIPE (HIDDEN) -->
-  <section id="create-section" style="display:none;">
-    <h2>Create Recipe</h2>
-
-    <input id="name" placeholder="Recipe name">
-    <textarea id="instructions" placeholder="Instructions"></textarea>
-
-    <input id="image-url" placeholder="Image URL">
-
-    <h3>Ingredients</h3>
-    <div class="ingredient-row">
-    <input id="ingredient-search" placeholder="Search ingredient...">
-    <ul id="ingredient-results"></ul>
-
-    <input id="ingredient-qty" placeholder="Quantity">
-    <span id="unit-label"></span>
-      <button onclick="addIngredient()">Add</button>
+  <header>
+    <h1>👤 Savora Profile</h1>
+    <div class="nav">
+      <a href="/static/index.html">Home</a>
+      <a href="/static/recipes.html">Browse Recipes</a>
+      <a href="#" onclick="logout()">Logout</a>
     </div>
-    <ul id="ingredient-list"></ul>
+  </header>
 
-    <h3>Tags</h3>
-    <input id="tag-input" placeholder="comma,separated">
+  <main class="container">
 
-    <button onclick="addRecipe()">Create</button>
-  </section>
+    <section class="profile-header">
+      <h2 id="welcome-msg">Welcome 👋</h2>
+      <div class="profile-actions">
+        <button onclick="toggleCreate()" class="primary-btn big-btn">➕ Create Recipe</button>
+      </div>
+    </section>
 
-  <!-- MY RECIPES -->
-  <section>
-    <h2>My Recipes</h2>
-    <div id="my-recipes" class="recipe-grid"></div>
-  </section>
+    <section id="create-section" class="profile-section" style="display:none;">
+      <h2>Create Recipe</h2>
 
-  <!-- MY FRIDGE -->
-  <section>
-    <h2>My Fridge</h2>
+      <div class="form-group">
+        <label for="name">Recipe Name</label>
+        <input id="name" type="text" placeholder="Recipe name">
+      </div>
 
-    <div class="ingredient-row">
+      <div class="form-group">
+        <label for="instructions">Instructions</label>
+        <textarea id="instructions" placeholder="Instructions"></textarea>
+      </div>
 
-      <input id="fridge-search" placeholder="Search ingredient...">
-      <ul id="fridge-results"></ul>
+      <div class="form-group">
+        <label for="image-url">Image URL</label>
+        <input id="image-url" type="text" placeholder="Image URL">
+      </div>
 
-      <input id="fridge-qty" placeholder="Quantity">
-      <span id="fridge-unit"></span>
+      <h3>Ingredients</h3>
+      <div class="ingredient-row">
+        <div class="ingredient-field">
+          <input id="ingredient-search" type="text" placeholder="Search ingredient...">
+          <ul id="ingredient-results"></ul>
+        </div>
 
-      <button onclick="addToFridge()">Add</button>
+        <div class="ingredient-field">
+          <input id="ingredient-qty" type="text" placeholder="Quantity">
+          <span id="unit-label"></span>
+        </div>
+
+        <button onclick="addIngredient()">Add</button>
+      </div>
+
+      <ul id="ingredient-list"></ul>
+
+      <div class="form-group">
+        <label for="tag-input">Tags</label>
+        <input id="tag-input" type="text" placeholder="comma,separated">
+      </div>
+
+      <button onclick="addRecipe()" class="primary-btn">Create</button>
+    </section>
+
+    <section class="profile-section my-recipes-section">
+      <h2>My Recipes</h2>
+      <div id="my-recipes" class="recipe-grid"></div>
+    </section>
+
+    <section class="profile-section">
+      <h2>My Fridge</h2>
+
+      <div class="ingredient-row">
+        <div class="ingredient-field">
+          <input id="fridge-search" type="text" placeholder="Search ingredient...">
+          <ul id="fridge-results"></ul>
+        </div>
+
+        <div class="ingredient-field">
+          <input id="fridge-qty" type="text" placeholder="Quantity">
+          <span id="fridge-unit"></span>
+        </div>
+
+        <button onclick="addToFridge()">Add</button>
+      </div>
+
+      <ul id="fridge-list"></ul>
+    </section>
+
+  </main>
+
+  <!-- Chatbot Button -->
+  <img src="/static/ai_avatar.jpg" id="ai-btn" class="ai-btn" alt="AI Assistant">
+
+  <!-- Chatbot Box -->
+  <div id="ai-chat" class="ai-chat-box">
+
+    <div class="chat-header">
+      <div class="chat-header-text">
+        <h3>🤖 Savora Assistant</h3>
+        <p>Ask for recipes or cooking help</p>
+      </div>
+      <button class="chat-close-btn" onclick="toggleChat()">×</button>
     </div>
-    <ul id="fridge-list"></ul>
-  </section>
 
-</div>
+    <div id="chat-messages" class="chat-messages">
+      <div class="message bot-message">
+        Hi! I’m your Savora assistant. Ask me for recipe ideas, ingredients, or cooking help.
+      </div>
+    </div>
 
-<!--AI CHAT BOX -->
-<img src="/static/ai_avatar.jpg" id="ai-btn"
-     style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;cursor:pointer;">
+    <div class="chat-input-area">
+      <input id="chat-input" type="text" placeholder="Ask me a recipe...">
+      <button onclick="sendMessage()" class="primary-btn">Send</button>
+    </div>
 
-<div id="ai-chat" style="display:none;position:fixed;bottom:80px;right:20px;width:300px;height:400px;background:#fff;border:1px solid #ccc;padding:10px;overflow:auto;">
-  <div id="chat-messages"></div>
-  <input id="chat-input" placeholder="Ask me a recipe..." style="width:75%;">
-  <button onclick="sendMessage()">Send</button>
+  </div>
 
-</div>
-
-<script src="/static/ai.js"></script>
-<script src="/static/app.js"></script>
-<script src="/static/profile.js"></script>
+  <script src="/static/ai.js"></script>
+  <script src="/static/app.js"></script>
+  <script src="/static/profile.js"></script>
 </body>
 </html>
