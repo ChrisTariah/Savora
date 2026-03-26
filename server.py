@@ -5,7 +5,7 @@ import sqlite3
 import uuid
 import hashlib
 import urllib.parse
-from google import genai
+import google.generativeai as genai
 from enum import Enum
 import sqlite3
 from typing import Any

@@ -49,3 +49,63 @@ or in VS Code opening the command pallet (ctrl+shift+P), selecting "Python: Sele
  ```Powershell
  pip freeze > requirements.txt
  ```
+ ## Front End
+ 
+### Overview
+The front end is a multi-page vanilla HTML/CSS/JS application served as static files by `server.py`. All pages share a single stylesheet (`static/style.css`) and a set of shared JavaScript files.
+ 
+### Pages
+| File | Route | Description |
+|---|---|---|
+| `index.html` | `/static/index.html` | Home / landing page |
+| `login.html` | `/static/login.html` | Login form |
+| `register.html` | `/static/register.html` | Registration form |
+| `forgot-password.html` | `/static/forgot-password.html` | Password reset request |
+| `recipes.html` | `/static/recipes.html` | Recipe browser with search |
+| `recipe.html` | `/static/recipe.html?id=N` | Single recipe detail view |
+| `profile.html` | `/static/profile.html` | User profile, create recipe, fridge |
+ 
+### JavaScript Files
+| File | Purpose |
+|---|---|
+| `app.js` | Auth functions (`login`, `logout`, `registerUser`), shared `loadNavbar()`, shared `toggleChat()` |
+| `ai.js` | AI chat widget — wires the chat button and handles sending/receiving messages |
+| `recipes.js` | Fetches and renders all recipes; `filterRecipes()` handles client-side search |
+| `recipe.js` | Fetches and renders a single recipe by `?id=` query param |
+| `profile.js` | Recipe creation form, ingredient search autocomplete, fridge management |
+| `script.js` | Legacy toggle/validation file (largely superseded by `app.js`) |
+ 
+### Stylesheet (`style.css`)
+The stylesheet uses CSS custom properties (variables) defined in `:root` for consistent theming:
+```css
+--orange, --orange-dark, --orange-light  /* primary brand colour */
+--cream, --parchment                      /* background tones */
+--text, --text-muted                      /* typography */
+--card-bg, --border                       /* surfaces */
+--shadow-sm, --shadow-md, --shadow-lg    /* elevation */
+--radius, --radius-sm                     /* border radii */
+--transition                              /* animation timing */
+```
+Google Fonts are loaded at the top of the stylesheet:
+- **Playfair Display** (700, 900) — headings and the Savora wordmark
+- **DM Sans** (400, 500, 600) — body copy and UI elements
+ 
+### Navigation Bar
+All pages include `<div class="nav" id="nav-links"></div>` inside `<header>`. The `loadNavbar()` function in `app.js` populates this div on `DOMContentLoaded` by hitting `/me`. It renders a logged-in or logged-out set of links automatically, so every page stays consistent without duplicating HTML.
+ 
+Logged-out links: Home · Recipes · Login · **Register** (CTA pill)  
+Logged-in links: Home · Recipes · Profile · **Logout** (CTA pill)
+ 
+### Recipe Search
+`recipes.html` includes a search input (`id="recipe-search"`). The `filterRecipes()` function in `recipes.js` filters the in-memory `allRecipes` array client-side — no additional server requests. It matches against both recipe **name** and **tags**, and shows a "no results" message when nothing matches.
+ 
+### AI Chat Widget
+The chat button (`id="ai-btn"`) and chat box (`id="ai-chat"`) are present on `recipes.html`, `recipe.html`, and `profile.html`. The toggle is handled by `toggleChat()` in `app.js`. Messages are sent to the `POST /chat` endpoint and displayed as styled bubbles. The Enter key also triggers sending.
+ 
+### Design Notes
+- The home page hero uses CSS `@keyframes fadeUp` with staggered `animation-delay` for a sequenced entrance effect.
+- Floating food emoji decorations on the home page use `@keyframes floatBob` for a gentle floating motion.
+- Recipe cards use a flex column layout so the "View Recipe" button always aligns to the bottom of each card regardless of content height.
+- Tag pills are rendered as inline `<span class="tag-pill">` elements with an orange tint.
+- The header uses `backdrop-filter: blur()` for a frosted-glass effect as you scroll past content.
+ 

@@ -9,12 +9,8 @@
 <body>
 
 <header>
-  <h1>📝 Savora Register</h1>
-
-  <div class="nav">
-    <a href="/static/index.html">Home</a>
-    <a href="/static/recipes.html">Recipes</a>
-  </div>
+  <h1>Savora</h1>
+  <div class="nav" id="nav-links"></div>
 </header>
 
 <div class="container login-card">
@@ -32,12 +28,8 @@
 
   <div class="auth-buttons">
     <button onclick="registerUser()">Register</button>
+    <a class="btn-outline" href="/static/login.html">Login instead</a>
   </div>
-
-  <p class="msg">
-    Already have an account?
-    <a href="/static/login.html">Login here</a>
-  </p>
 
   <p id="register-msg" class="msg"></p>
 </div>
