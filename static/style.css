@@ -637,3 +637,6 @@ button.secondary:hover,
     height: 280px;
   }
 }
+.chat-messages {
+  white-space: pre-line;
+}
