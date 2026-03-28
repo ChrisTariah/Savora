@@ -90,3 +90,22 @@ CREATE TABLE IF NOT EXISTS AI_Chat (
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(userID) REFERENCES User(ID)
 );
+
+-- Likes, Comments, and Follows
+CREATE TABLE IF NOT EXISTS Recipe_Like(
+    userID INTEGER NOT NULL,
+    recipeID INTEGER NOT NULL,
+    PRIMARY KEY (userID, recipeID),
+    FOREIGN KEY (userID) REFERENCES User(ID),
+    FOREIGN KEY (recipeID) REFERENCES Recipe(ID)
+);
+
+CREATE TABLE IF NOT EXISTS Recipe_Comment(
+    userID INTEGER NOT NULL,
+    recipeID INTEGER NOT NULL,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    comment TEXT NOT NULL,
+    PRIMARY KEY (userID, recipeID, timestamp),
+    FOREIGN KEY (userID) REFERENCES User(ID),
+    FOREIGN KEY (recipeID) REFERENCES Recipe(ID)
+);

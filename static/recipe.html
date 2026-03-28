@@ -1,38 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Recipe</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
+
 <header>
-  <h1>Recipe Details</h1>
-  <a href="/static/recipes.html">← Back to all recipes</a>
+  <h1>Savora</h1>
+  <div class="nav" id="nav-links"></div>
 </header>
 
 <div class="container">
-  <h2 id="recipe-name"></h2>
-  <img id="recipe-image" class="recipe-detail-img">
+  <a href="/static/recipes.html" style="color:var(--text-muted);font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:4px;margin-bottom:20px;">← Back to all recipes</a>
 
+  <h2 id="recipe-name"></h2>
+  <img id="recipe-image" class="recipe-detail-img" alt="Recipe image">
+
+  <h3>Instructions</h3>
   <p id="recipe-instructions"></p>
-<h3>Tags</h3>
-<ul id="recipe-tags"></ul>
+
+  <h3>Tags</h3>
+  <ul id="recipe-tags"></ul>
+
   <h3>Ingredients</h3>
   <ul id="recipe-ingredients"></ul>
 </div>
 
-<!--AI CHAT BOX -->
-<img src="/static/ai_avatar.jpg" id="ai-btn"
-     style="position:fixed;bottom:20px;right:20px;width:50px;height:50px;cursor:pointer;">
+<!-- AI CHAT BOX -->
+<img src="/static/ai_avatar.jpg" id="ai-btn" class="ai-btn" alt="AI Assistant">
 
-<div id="ai-chat" style="display:none;position:fixed;bottom:80px;right:20px;width:300px;height:400px;background:#fff;border:1px solid #ccc;padding:10px;overflow:auto;">
-  <div id="chat-messages"></div>
-  <input id="chat-input" placeholder="Ask me a recipe..." style="width:75%;">
-  <button onclick="sendMessage()">Send</button>
-
+<div id="ai-chat" class="ai-chat-box">
+  <div class="chat-header">
+    <div class="chat-header-text">
+      <h3>🤖 Savora Assistant</h3>
+      <p>Ask for recipes or cooking help</p>
+    </div>
+    <button class="chat-close-btn" onclick="toggleChat()">×</button>
+  </div>
+  <div id="chat-messages" class="chat-messages">
+    <div class="message bot-message">
+      Hi! I'm your Savora assistant. Ask me for recipe ideas or cooking help.
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input id="chat-input" type="text" placeholder="Ask me a recipe...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
 </div>
 
 <script src="/static/ai.js"></script>
+<script src="/static/app.js"></script>
 <script src="/static/recipe.js"></script>
 </body>
 </html>

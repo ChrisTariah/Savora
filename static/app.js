@@ -1,3 +1,5 @@
+// app.js
+
 // ---------- Auth Functions ----------
 
 async function logout() {
@@ -64,7 +66,8 @@ async function registerUser() {
   }
 }
 
-// ---------- Shared helper ----------
+// ---------- Shared helpers ----------
+
 async function checkAuth() {
   const res = await fetch("/me", { credentials: "same-origin" });
   if (!res.ok) {
@@ -72,6 +75,7 @@ async function checkAuth() {
   }
 }
 
+// ---------- Consistent Navbar (used by all pages via id="nav-links") ----------
 async function loadNavbar() {
   const nav = document.getElementById("nav-links");
   if (!nav) return;
@@ -80,20 +84,35 @@ async function loadNavbar() {
     const res = await fetch("/me", { credentials: "same-origin" });
 
     if (res.ok) {
+      // Logged-in nav
       nav.innerHTML = `
         <a href="/static/index.html">Home</a>
+        <a href="/static/recipes.html">Recipes</a>
         <a href="/static/profile.html">Profile</a>
-        <a href="#" onclick="logout()">Logout</a>
+        <a href="#" onclick="logout()" class="nav-cta">Logout</a>
       `;
     } else {
+      // Logged-out nav
       nav.innerHTML = `
         <a href="/static/index.html">Home</a>
+        <a href="/static/recipes.html">Recipes</a>
         <a href="/static/login.html">Login</a>
-        <a href="/static/register.html">Register</a>
+        <a href="/static/register.html" class="nav-cta">Register</a>
       `;
     }
   } catch (err) {
     console.error("Navbar error:", err);
+  }
+}
+
+// ---------- Chat toggle (shared across pages) ----------
+function toggleChat() {
+  const chatDiv = document.getElementById("ai-chat");
+  if (!chatDiv) return;
+  chatDiv.style.display = chatDiv.style.display === "none" ? "flex" : "none";
+  // Use flex so the column layout works
+  if (chatDiv.style.display === "flex") {
+    chatDiv.style.flexDirection = "column";
   }
 }
 

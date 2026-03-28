@@ -9,13 +9,8 @@
 <body>
 
 <header>
-  <h1>🍳 Savora</h1>
-
-  <div class="nav">
-    <a href="/static/index.html">Home</a>
-    <a href="/static/recipes.html">Recipes</a>
-    <a href="/static/register.html">Register</a>
-  </div>
+  <h1>Savora</h1>
+  <div class="nav" id="nav-links"></div>
 </header>
 
 <div class="container login-card">
@@ -23,30 +18,25 @@
   <h2>Welcome Back</h2>
   <p class="msg">Sign in to continue exploring recipes</p>
 
-  <!-- Username -->
   <label>Username</label>
   <input id="username" type="text" placeholder="Enter your username">
 
-  <!-- Password -->
   <label>Password</label>
   <input id="password" type="password" placeholder="Enter your password">
 
-  <!-- Forgot Password -->
   <div class="login-options">
     <a href="/static/forgot-password.html">Forgot password?</a>
   </div>
 
-  <!-- Buttons -->
   <div class="auth-buttons">
     <button onclick="login()">Login</button>
+    <a class="btn-outline" href="/static/register.html">Register</a>
   </div>
 
-  <!-- Message -->
   <p id="msg" class="msg"></p>
 
 </div>
 
 <script src="/static/app.js"></script>
-
 </body>
 </html>
