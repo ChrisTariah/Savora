@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Profile | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <h1>👤 User Profile</h1>
+  <div class="nav" id="nav-links"></div>
+</header>
+
+<div class="container">
+
+  <!-- USER INFO -->
+  <section class="profile-card">
+    <h2 id="username">Loading...</h2>
+
+    <div class="profile-stats">
+      <p>❤️ Likes: <span id="likes">0</span></p>
+      <p>👁️ Views: <span id="views">0</span></p>
+    </div>
+    <button id="follow-btn" onclick="toggleFollow()">Follow</button>
+    <button onclick="likeProfile()" class="primary-btn">
+      ❤️ Like Profile
+    </button>
+  </section>
+
+  <!-- USER RECIPES -->
+  <section>
+    <h2>Recipes</h2>
+    <div id="recipes" class="recipe-grid"></div>
+  </section>
+
+</div>
+
+<script src="/static/app.js"></script>
+<script src="/static/user.js"></script>
+
+</body>
+</html>

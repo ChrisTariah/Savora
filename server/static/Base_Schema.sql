@@ -37,6 +37,36 @@ CREATE TABLE IF NOT EXISTS Recipe_Tag (
     FOREIGN KEY (tagID) REFERENCES Tag(ID)
 );
 
+
+--users feed tables
+CREATE TABLE Profile_Like (
+  userID INTEGER,
+  likedUserID INTEGER,
+  PRIMARY KEY (userID, likedUserID),
+  FOREIGN KEY(userID) REFERENCES User(ID),
+  FOREIGN KEY(likedUserID) REFERENCES User(ID)
+);
+CREATE TABLE Recipe_Like (
+  userID INTEGER,
+  recipeID INTEGER,
+  PRIMARY KEY (userID, recipeID),
+  FOREIGN KEY(userID) REFERENCES User(ID),
+  FOREIGN KEY(recipeID) REFERENCES Recipe(ID)
+);
+CREATE TABLE Profile_View (
+  viewerID INTEGER,
+  viewedUserID INTEGER,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(viewerID) REFERENCES User(ID),
+  FOREIGN KEY(viewedUserID) REFERENCES User(ID)
+);
+CREATE TABLE Follow (
+  followerID INTEGER,
+  followingID INTEGER,
+  PRIMARY KEY (followerID, followingID),
+  FOREIGN KEY(followerID) REFERENCES User(ID),
+  FOREIGN KEY(followingID) REFERENCES User(ID)
+);
 -- Ingredient
 CREATE TABLE IF NOT EXISTS Ingredient (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,

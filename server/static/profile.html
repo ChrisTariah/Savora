@@ -10,7 +10,7 @@
 
   <header>
     <h1>👤 Savora Profile</h1>
-    <div class="nav">
+     <div class="nav" id="profile-nav">
       <a href="/static/index.html">Home</a>
       <a href="/static/recipes.html">Browse Recipes</a>
       <a href="#" onclick="logout()">Logout</a>
@@ -21,6 +21,8 @@
 
     <section class="profile-header">
       <h2 id="welcome-msg">Welcome 👋</h2>
+      <input id="user-search" placeholder="Search users...">
+      <ul id="user-results"></ul>
       <div class="profile-actions">
         <button onclick="toggleCreate()" class="primary-btn big-btn">➕ Create Recipe</button>
       </div>

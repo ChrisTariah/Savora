@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+  <h1>Savora</h1>
+  <div class="nav" id="nav-links"></div>
+</header>
+
+<div class="container login-card">
+
+  <h2>Welcome Back</h2>
+  <p class="msg">Sign in to continue exploring recipes</p>
+
+  <label>Username</label>
+  <input id="username" type="text" placeholder="Enter your username">
+
+  <label>Password</label>
+  <input id="password" type="password" placeholder="Enter your password">
+
+  <div class="login-options">
+    <a href="/static/forgot-password.html">Forgot password?</a>
+  </div>
+
+  <div class="auth-buttons">
+    <button onclick="login()">Login</button>
+    <a class="btn-outline" href="/static/register.html">Register</a>
+  </div>
+
+  <p id="msg" class="msg"></p>
+
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

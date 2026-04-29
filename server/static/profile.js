@@ -7,6 +7,24 @@ const ingredientListEl = document.getElementById("ingredient-list");
 
 let ingredients = [];
 
+document.getElementById("user-search").addEventListener("input", async (e) => {
+  const q = e.target.value;
+
+  if (!q) return;
+
+  const res = await fetch(`/users?q=${q}`);
+  const users = await res.json();
+
+  const list = document.getElementById("user-results");
+
+  list.innerHTML = users.map(u => `
+    <li onclick="openProfile(${u.id})">${u.username}</li>
+  `).join("");
+});
+
+function openProfile(id) {
+  location.href = `/static/user.html?id=${id}`;
+}
 // ---------- Ingredients ----------
 function addIngredient() {
   const name = ingredientNameInput.value.trim();
@@ -43,6 +61,28 @@ function renderIngredientList() {
   });
 }
 
+async function loadProfileNavbar() {
+  const nav = document.getElementById("profile-nav");
+  if (!nav) return;
+
+  try {
+    const res = await fetch("/me", { credentials: "same-origin" });
+
+    if (!res.ok) return;
+
+    const user = await res.json();
+
+
+    if (user.privilege === "admin") {
+      nav.innerHTML += `
+        <a href="/static/admin.html">Admin</a>
+      `;
+    }
+
+  } catch (err) {
+    console.error("Navbar error:", err);
+  }
+}
 // ---------- Add Recipe ----------
 async function addRecipe() {
   const name = nameInput.value.trim();
@@ -266,4 +306,5 @@ document.addEventListener("DOMContentLoaded", () => {
    loadProfile();
    loadMyRecipes();
    loadFridge();
+   loadProfileNavbar();
 });
