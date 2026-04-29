@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel | Savora</title>
+  <link rel="stylesheet" href="/static/style.css">
+
+  <style>
+    .admin-container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .admin-header h2 {
+      font-size: 26px;
+    }
+
+    .admin-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .search-bar input {
+      flex: 1;
+    }
+
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .user-table th,
+    .user-table td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    .user-table th {
+      background: #f5f5f5;
+      font-weight: 600;
+    }
+
+    .action-btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      margin-right: 5px;
+    }
+
+    .delete-btn {
+      background: #dc3545;
+      color: white;
+    }
+
+    .delete-btn:hover {
+      background: #b02a37;
+    }
+
+    .edit-btn {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background: #0b5ed7;
+    }
+
+    .empty-msg {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🛠️ Admin Panel</h1>
+  <div class="nav" id="nav-links"></div>
+</header>
+
+<div class="admin-container">
+
+  <!-- HEADER -->
+  <div class="admin-header">
+    <h2>User Management</h2>
+  </div>
+
+  <!-- USER SEARCH -->
+  <div class="admin-card">
+    <h3>Search Users</h3>
+
+    <div class="search-bar">
+      <input id="user-search" placeholder="Search username...">
+    </div>
+
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="user-results">
+        <tr>
+          <td colspan="3" class="empty-msg">Start typing to search users</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script src="/static/app.js"></script>
+<script src="/static/admin.js"></script>
+
+</body>
+</html>
