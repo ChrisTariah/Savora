@@ -558,7 +558,6 @@ button.secondary:hover,
 /* =========================
    RECIPE GRID
 ========================= */
-
 .recipe-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -766,35 +765,7 @@ button.secondary:hover,
   position: relative;
   flex: 1;
 }
-/* user page */
-.profile-card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
 
-.profile-stats {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 10px 0;
-}
-
-.primary-btn {
-  background: #ff6b6b;
-  border: none;
-  padding: 10px 16px;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.primary-btn:hover {
-  background: #e85a5a;
-}
 /* Chatbot */
 .ai-btn {
   position: fixed;
