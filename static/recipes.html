@@ -1,47 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recipes | Savora</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
 <header>
-  <h1>📖 Savora Recipes</h1>
-  <div class="nav">
-    <a href="/static/index.html">Home</a>
-    <a href="/static/login.html">Login</a>
-    <a href="/static/recipes.html">Recipes</a>
-  </div>
+  <h1>Savora</h1>
+  <div class="nav" id="nav-links"></div>
 </header>
 
 <div class="container">
-
-  <section class="add-recipe">
-    <h2>Add Recipe</h2>
-    <input id="name" placeholder="Recipe name">
-    <textarea id="instructions" placeholder="Recipe instructions"></textarea>
-
-    <h3>Ingredients</h3>
-    <div class="ingredient-row">
-      <input id="ingredient-name" placeholder="Ingredient name">
-      <input id="ingredient-qty" placeholder="Quantity (just numbers)">
-      <button onclick="addIngredient()">Add</button>
-    </div>
-    <ul id="ingredient-list"></ul>
-
-    <h3>Tags</h3>
-    <input id="tag-input" placeholder="Add tags (comma separated)">
-    <button class="primary-btn" onclick="addRecipe()">Add Recipe</button>
-  </section>
-
   <section class="recipe-section">
     <h2>All Recipes</h2>
+
+    <!-- SEARCH BAR (new) -->
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input
+        id="recipe-search"
+        type="text"
+        placeholder="Search recipes by name or tag…"
+        oninput="filterRecipes()"
+        autocomplete="off"
+      >
+    </div>
+
+    <div id="no-results">😕 No recipes match your search.</div>
     <div id="recipe-list" class="recipe-grid"></div>
   </section>
-
 </div>
 
+<!-- AI CHAT BOX -->
+<img src="/static/ai_avatar.jpg" id="ai-btn" class="ai-btn" alt="AI Assistant">
+
+<div id="ai-chat" class="ai-chat-box">
+  <div class="chat-header">
+    <div class="chat-header-text">
+      <h3>🤖 Savora Assistant</h3>
+      <p>Ask for recipes or cooking help</p>
+    </div>
+    <button class="chat-close-btn" onclick="toggleChat()">×</button>
+  </div>
+  <div id="chat-messages" class="chat-messages">
+    <div class="message bot-message">
+      Hi! I'm your Savora assistant. Ask me for recipe ideas or cooking help.
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input id="chat-input" type="text" placeholder="Ask me a recipe...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script src="/static/ai.js"></script>
 <script src="/static/app.js"></script>
+<script src="/static/recipes.js"></script>
+<script src="/static/spotify.js"></script>
 </body>
 </html>
